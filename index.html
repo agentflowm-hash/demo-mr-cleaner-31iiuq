@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mr. Cleaner - Reinigungsfirma</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#f8fafc; color:#0f172a; }
+    :root{
+      --primary:#ff6900;
+      --primary-dark:#cc5600;
+      --primary-light:#ff8f33;
+      --bg:#f8fafc;
+      --surface:#ffffff;
+      --text:#0f172a;
+      --text-muted:#64748b;
+    }
+    /* ==== ANIMATIONS ==== */
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes scaleIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes shimmer{0%{left:-100%}100%{left:100%}}
+    @keyframes pulsate{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    /* ==== TYPOGRAPHY ==== */
+    h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;line-height:1.1;color:var(--text);letter-spacing:-0.02em}
+    h2{font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--text);letter-spacing:-0.01em}
+    p{font-size:1.125rem;line-height:1.7;color:var(--text-muted)}
+    .badge{display:inline-block;padding:12px 28px;border-radius:50px;background:var(--primary-light);color:var(--primary);font-weight:600;font-size:0.9rem;margin-bottom:24px}
+    .container{max-width:1200px;margin:auto;padding:0 24px}
+    section{padding:100px 0}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+    @media(max-width:900px){.grid-3{grid-template-columns:1fr}}
+    /* ==== BUTTONS ==== */
+    .btn{padding:16px 32px;border-radius:50px;font-weight:600;border:none;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .btn-primary{background:var(--primary);color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+    .btn-primary:hover{transform:translateY(-4px)scale(1.02);box-shadow:0 12px 35px rgba(0,0,0,.25)}
+    .btn-secondary{background:#fff;color:var(--text);border:2px solid #e2e8f0;border-radius:50px}
+    .btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+    /* ==== CARDS ==== */
+    .card{background:#fff;border-radius:24px;padding:36px;border:1px solid rgba(0,0,0,.05);box-shadow:0 4px 25px rgba(0,0,0,.06);transition:all .4s cubic-bezier(.4,0,.2,1)}
+    .card:hover{transform:translateY(-12px);box-shadow:0 25px 60px rgba(0,0,0,.12)}
+    .card-icon{width:70px;height:70px;background:var(--primary-light);border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+    .card-icon i{font-size:1.75rem;color:var(--primary)}
+    /* ==== HERO ==== */
+    .hero{position:relative;overflow:hidden}
+    .hero-image{position:relative;border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.05)}
+    .hero-image img{width:100%;display:block;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+    .hero-image:hover img{transform:scale(1.05)}
+    .hero-image::before{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(0,0,0,.4),transparent);z-index:1}
+    .hero-image::after{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(to bottom,rgba(255,255,255,.15),transparent);z-index:2}
+    .hero .badge{animation:fadeInDown .6s ease}
+    .hero h1{animation:fadeInUp .8s ease .1s backwards;color:var(--text)}
+    .hero p{animation:fadeInUp .8s ease .2s backwards;color:var(--text-muted)}
+    .hero .btn{animation:fadeInUp .8s ease .3s backwards}
+    .hero-image{animation:scaleIn 1s ease .4s backwards}
+    /* ==== TRUST BAR ==== */
+    .trust-bar{display:flex;justify-content:center;gap:24px;margin:40px 0}
+    .trust-bar span{background:var(--primary-light);color:var(--primary);padding:12px 24px;border-radius:50px;font-weight:600}
+    /* ==== ADVANTAGES (CARDS) ==== */
+    .advantages .card-icon{animation:float 3s ease-in-out infinite}
+    /* ==== STEPS ==== */
+    .step-number{width:70px;height:70px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;margin:0 auto 20px;transition:all .3s ease;box-shadow:0 8px 25px rgba(0,0,0,.15)}
+    .step-number:hover{transform:scale(1.15);box-shadow:0 15px 40px rgba(0,0,0,.2)}
+    /* ==== FAQ ==== */
+    .faq-item{background:#fff;border-radius:20px;padding:28px 32px;margin-bottom:16px;border:1px solid #f1f5f9;transition:all .3s ease}
+    .faq-item:hover{transform:translateX(8px);border-left:4px solid var(--primary);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    .faq-item h3{font-weight:600;margin-bottom:8px;color:var(--text)}
+    .faq-item p{font-size:1rem;color:var(--text-muted)}
+    /* ==== CTA ==== */
+    .cta{background:var(--primary);color:#fff;text-align:center;padding:80px 0}
+    .cta h2{color:#fff}
+    .cta .btn-primary{animation:pulsate 2s infinite}
+    /* ==== FOOTER ==== */
+    footer{background:#0f172a;color:#cbd5e1;padding:40px 0;text-align:center;font-size:.9rem}
+    footer a{color:#64748b;text-decoration:none}
+    footer a:hover{color:#fff}
+  </style>
+
+<script id="wz-kontakt-script">
+document.addEventListener('DOMContentLoaded', function() {
+  var forms = document.querySelectorAll('form');
+  forms.forEach(function(form) {
+    if (form.__wzBound) return;
+    if (form.querySelector('input[type="email"]') && form.querySelector('textarea')) {
+      form.__wzBound = true;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var fd = new FormData(form);
+        var data = {
+          name: fd.get('name') || fd.get('Name') || '',
+          email: fd.get('email') || fd.get('Email') || '',
+          phone: fd.get('phone') || fd.get('telefon') || '',
+          message: fd.get('message') || fd.get('nachricht') || '',
+          firma: 'Mr. Cleaner',
+          demo_url: window.location.href
+        };
+        var btn = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (btn) btn.disabled = true;
+
+        fetch('https://6aa2-31-17-18-172.ngrok-free.app/webhook/kontakt-formular', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(res){
+          alert(res && res.success ? 'Danke! Wir melden uns.' : 'Fehler: ' + (res && res.message ? res.message : 'Unbekannt'));
+          if (res && res.success) form.reset();
+        })
+        .catch(function(){
+          alert('Fehler. Bitte kontakt@agentflowm.de kontaktieren.');
+        })
+        .finally(function(){
+          if (btn) btn.disabled = false;
+        });
+      });
+    }
+  });
+});
+</script>
+
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="container" style="display:flex;justify-content:space-between;align-items:center;padding:24px 0;position:sticky;top:0;background:var(--surface);backdrop-filter:blur(10px);z-index:1000">
+    <div class="logo"><strong>Mr. Cleaner</strong></div>
+    <nav class="nav">
+      <a href="#" style="margin:0 12px;color:var(--text);font-weight:500;text-decoration:none;">Startseite</a>
+      <a href="#advantages" style="margin:0 12px;color:var(--text);font-weight:500;text-decoration:none;">Leistungen</a>
+      <a href="#process" style="margin:0 12px;color:var(--text);font-weight:500;text-decoration:none;">Ablauf</a>
+      <a href="#faq" style="margin:0 12px;color:var(--text);font-weight:500;text-decoration:none;">FAQ</a>
+    </nav>
+    <a href="#cta" class="btn btn-primary" style="margin-left:12px;">Jetzt buchen</a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero container text-center">
+    <div class="badge">Reinigungsfirma in Köln</div>
+    <h1>Perfekte Sauberkeit für Ihr Zuhause</h1>
+    <p>Professionelle Reinigung mit umweltfreundlichen Mitteln – schnell, zuverlässig und transparent.</p>
+    <div class="grid-3">
+      <a href="#cta" class="btn btn-primary" style="margin:8px;">Jetzt Termin</a>
+      <a href="#services" class="btn btn-secondary" style="margin:8px;">Mehr erfahren</a>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&h=500&fit=crop" alt="Reinigungsservice">
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <section class="trust-bar">
+    <span>Umweltfreundlich</span>
+    <span>Pünktlich</span>
+    <span>24/7 Verfügbar</span>
+    <span>Zufriedenheitsgarantie</span>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section id="advantages">
+    <h2 class="text-center" style="margin-bottom:60px">Warum Mr. Cleaner?</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon"><i class="fas fa leaf"></i></div>
+        <h3>Umweltfreundliche Reinigung</h3>
+        <p>Verwendung von zertifizierten, biologisch abbaubaren Reinigungsmitteln.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa clock"></i></div>
+        <h3>Pünktliche Terminierung</h3>
+        <p>Wir garantieren termingerechte Einsätze – kein Warten.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa shield-alt"></i></div>
+        <h3>Zufriedenheitsgarantie</h3>
+        <p>Falls Sie nicht zufrieden sind, reinigen wir kostenlos nach.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <h2 class="text-center" style="margin-bottom:60px">Unsere Leistungen</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-icon"><i class="fas fa home"></i></div>
+        <h3>Wohnungsreinigung</h3>
+        <p>Umfassende Reinigung von Wohnräumen, Küche, Bad und mehr.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa window-canvas"></i></div>
+        <h3>Balkon & Fenster</h3>
+        <p>Glänzende Fenster und gepflegte Balkone – inklusive Rahmenreinigung.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa brush"></i></div>
+        <h3>Gründliche Grundreinigung</h3>
+        <p>Detailarbeit für Umzugs- oder Endreinigungen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS STEPS -->
+  <section id="process">
+    <h2 class="text-center" style="margin-bottom:60px">So einfach geht’s</h2>
+    <div class="grid-3">
+      <div class="step-number">1</div>
+      <p>Termin vereinbaren</p>
+      <div class="step-number">2</div>
+      <p>Profis kommen vorbei</p>
+      <div class="step-number">3</div>
+      <p>Sauberkeit genießen</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <h2 class="text-center" style="margin-bottom:60px">Häufige Fragen</h2>
+    <div class="faq-item">
+      <h3>Wie oft sollte ich meine Wohnung reinigen lassen?</h3>
+      <p>Das hängt von Ihrer Nutzung ab – wir erstellen gern einen individuellen Reinigungsplan.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Verwenden Sie aggressive Chemikalien?</h3>
+      <p>Nein, wir setzen ausschließlich umweltfreundliche Reinigungsmittel ein.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Sind die Reiniger versichert?</h3>
+      <p>Ja, alle Mitarbeiter sind haftpflichtversichert und werden sorgfältig geschult.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Kann ich einen Termin stornieren?</h3>
+      <p>Kostenlos bis 24 Stunden vor dem Termin – danach gelten unsere Standardbedingungen.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="cta">
+    <h2>Jetzt unverbindlich anfragen</h2>
+    <p style="margin:20px 0;">Erleben Sie den Unterschied von Mr. Cleaner – sauber, schnell, zuverlässig.</p>
+    <a href="#contact" class="btn btn-primary">Termin buchen</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 Mr. Cleaner – Reinigungsfirma aus Köln. Alle Rechte vorbehalten.</p>
+    <p>Impressum & Datenschutz <a href="#">(Link)</a></p>
+  </footer>
+
+<div id="wz-banner" style="
+  position:fixed; bottom:0; left:0; right:0;
+  background:#000;
+  color:#fff;
+  padding:0;
+  z-index:99999;
+  box-shadow: 0 -4px 30px rgba(255,106,0,0.2);
+  font-family: system-ui, -apple-system, sans-serif;
+  border-top: 2px solid #ff6a00;
+">
+  <!-- Hauptbereich -->
+  <div style="
+    max-width:1200px;
+    margin:0 auto;
+    padding:20px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+  ">
+    <!-- Links: Logo + Badge + Text -->
+    <div style="flex:1; min-width:320px; display:flex; align-items:center; gap:16px;">
+      
+      <!-- AgentFlow Logo -->
+      <img src="data:image/jpeg;base64,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" style="height:44px; width:44px; border-radius:10px; flex-shrink:0; object-fit:cover;" alt="AgentFlow">
+      
+      <!-- KI Demo Badge -->
+      <div style="
+        background:#111;
+        border: 2px solid #ff6a00;
+        border-radius:10px;
+        padding:10px 14px;
+        text-align:center;
+        flex-shrink:0;
+      ">
+        <div style="font-size:9px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:1px;">KI-generiert</div>
+        <div style="font-size:14px; font-weight:800; color:#ff6a00; margin-top:2px;">DEMO</div>
+      </div>
+      
+      <!-- Haupttext -->
+      <div>
+        <div style="font-size:16px; font-weight:800; color:#fff; line-height:1.3; margin-bottom:6px;">
+          Diese Seite wurde <span style="color:#ff6a00;">automatisch erstellt</span> – in Sekunden.
+        </div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.5;">
+          Unsere echten Projekte sind <span style="color:#fff; font-weight:600;">individuell designed</span>: 
+          <span style="color:#ff6a00;">Website</span> · 
+          <span style="color:#ff6a00;">App</span> · 
+          <span style="color:#ff6a00;">Verwaltung</span> · 
+          <span style="color:#ff6a00;">Automatisierungen</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rechts: Buttons -->
+    <div style="display:flex; gap:12px; align-items:center; flex-shrink:0;">
+      
+      <!-- Primary CTA -->
+      <a href="https://calendly.com/agentflowm/15min" target="_blank" rel="noopener" style="
+        padding:14px 28px;
+        background:#ff6a00;
+        color:#fff;
+        text-decoration:none;
+        border-radius:8px;
+        font-weight:700;
+        font-size:14px;
+        box-shadow: 0 4px 20px rgba(255,106,0,0.5);
+        white-space:nowrap;
+        border:none;
+      ">Premium-Website anfragen</a>
+
+      <!-- Secondary -->
+      <a href="https://www.agentflowm.de" target="_blank" rel="noopener" style="
+        padding:14px 20px;
+        background:transparent;
+        color:#fff;
+        text-decoration:none;
+        border-radius:8px;
+        font-weight:600;
+        font-size:14px;
+        border: 2px solid rgba(255,255,255,0.3);
+        white-space:nowrap;
+      ">Echte Projekte ansehen</a>
+      
+    </div>
+  </div>
+  
+  <!-- Footer-Zeile -->
+  <div style="
+    background:#111;
+    padding:12px 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  ">
+    <div style="
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:16px;
+    ">
+      <!-- Links: Branding -->
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:12px; color:rgba(255,255,255,0.5);">Erstellt von</span>
+        <span style="font-size:13px; font-weight:800; color:#ff6a00;">AgentFlow</span>
+        <span style="font-size:11px; color:rgba(255,255,255,0.4);">– Webseiten & Systeme aus Berlin</span>
+      </div>
+      
+      <!-- Rechts: Trust Points -->
+      <div style="display:flex; align-items:center; gap:20px; font-size:12px;">
+        <span style="color:rgba(255,255,255,0.6);">
+          <span style="color:#ff6a00;">✓</span> Festpreise
+        </span>
+        <span style="color:rgba(255,255,255,0.6);">
+          <span style="color:#ff6a00;">✓</span> In 7 Tagen live
+        </span>
+        <span style="color:rgba(255,255,255,0.6);">
+          <span style="color:#ff6a00;">✓</span> Next-Gen Systeme
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="wz-banner-spacer" style="height:130px"></div>
+
+</body>
+</html>
